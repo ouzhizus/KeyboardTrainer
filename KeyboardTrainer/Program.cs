@@ -37,6 +37,7 @@ Stopwatch timer = new Stopwatch();
 char space = (char)32;
 while (true)
 {
+    Console.CursorVisible = false;
     string chosenWord = Words[rnd.Next(0,Words.Length)];
     char[] partedWord = chosenWord.ToCharArray();
     char[] rightArray = new char[partedWord.Length];
@@ -70,7 +71,7 @@ while (true)
     {
         Console.CursorVisible = false;
         Console.SetCursorPosition(0,0);
-        Console.WriteLine("Test Test");
+        Console.WriteLine("Typing training:");
         Console.SetCursorPosition(0,1);
         Console.WriteLine(partedWord);
         for (int i = 0; i < rightArray.Length; i++)
@@ -103,6 +104,10 @@ while (true)
             {
                 rightArray[counter] = userLetter;       
             }
+        }
+        else if (userLetter.Equals(space) && !userLetter.Equals(partedWord[counter]))
+        {
+            incorrectArray[counter] = '_';
         }
         else
         {
