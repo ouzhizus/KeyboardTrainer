@@ -1,7 +1,8 @@
-﻿using Pastel;
+﻿using System.Diagnostics;
+using Pastel;
 
 Random rnd = new Random(); ;
-string[] Words = {"hello bye how are you i hope everything is good",
+string[] Words = {
     "Please take your dog, Cali, out for a walk – he really needs some exercise!",
     "What a beautiful day it is on the beach, here in beautiful and sunny Hawaii",
     "Rex Quinfrey, a renowned scientist, created plans for an invisibility machine",
@@ -21,15 +22,27 @@ string[] Words = {"hello bye how are you i hope everything is good",
     "I have three things to do today: wash my car, call my mother, and feed my dog",
     "The Reckson family decided to go to an amusement park on Wednesday",
     "There are so many places to go in Europe for a vacation--Paris, Rome, Prague, etc.",
-    "Max Joykner sneakily drove his car around every corner looking for his dog"
+    "Max Joykner sneakily drove his car around every corner looking for his dog",
+    "Trixie and Veronica, our two cats, just love to play with their pink ball of yarn",
+    "The two boys collected twigs outside, for over an hour, in the freezing cold!",
+    "We climbed to the top of the mountain in just under two hours; isn’t that great?",
+    "Don't make a mountain out of a molehill",
+    "Friends are flowers in the garden of life",
+    "The grass is always greener on the other side",
+    "Just staying one day ahead of yesterday",
+    "You can lead a horse to water but you can't make him drink",
+    "All work and no play robs one of some fun in life"
 };
-string chosenWord = Words[rnd.Next(0,Words.Length)];
-char[] partedWord = chosenWord.ToCharArray();
-char[] rightArray = new char[partedWord.Length];
-char[] incorrectArray = new char[partedWord.Length];
-
+Stopwatch timer = new Stopwatch();
+char space = (char)32;
 while (true)
 {
+    string chosenWord = Words[rnd.Next(0,Words.Length)];
+    char[] partedWord = chosenWord.ToCharArray();
+    char[] rightArray = new char[partedWord.Length];
+    char[] incorrectArray = new char[partedWord.Length];
+
+    Console.Clear();
     Console.WriteLine("Press any key to start ");
     Console.ReadKey();
     Console.Clear();
@@ -43,6 +56,7 @@ while (true)
         startAgainTime--;
     }
     Console.Clear();
+    timer.Start();
     for (int i = 0; i < rightArray.Length;i++)
     {
         rightArray[i] = ' ';
@@ -54,62 +68,61 @@ while (true)
     int counter = 0;
     while (counter != partedWord.Length)
     {
-        int rightCounter = 0;
-        int incorCounter = 0;
         Console.CursorVisible = false;
         Console.SetCursorPosition(0,0);
         Console.WriteLine("Test Test");
         Console.SetCursorPosition(0,1);
         Console.WriteLine(partedWord);
-        foreach (var letter in rightArray)
+        for (int i = 0; i < rightArray.Length; i++)
         {
-            Console.SetCursorPosition(rightCounter, 2);
-            if (!letter.Equals(' '))
+            Console.SetCursorPosition(i, 2);
+            if (rightArray[i] != ' ')
             {
-                Console.Write($"{letter}".Pastel(ConsoleColor.Green));
+                Console.Write($"{rightArray[i]}".Pastel(ConsoleColor.Green));
             }
-            rightCounter++;
         }
-    
-        foreach (var letter in incorrectArray)
+
+        for (int i = 0; i < incorrectArray.Length; i++)
         {
-            Console.SetCursorPosition(incorCounter, 2);
-            if (!letter.Equals(' '))
+            Console.SetCursorPosition(i, 2);
+            if (incorrectArray[i] != ' ')
             {
-                Console.Write($"{letter}".Pastel(ConsoleColor.Red));
+                Console.Write($"{incorrectArray[i]}".Pastel(ConsoleColor.Red));
             }
-            incorCounter++;
         }
+
     
         char userLetter = Console.ReadKey().KeyChar;
         if (userLetter.Equals(partedWord[counter]))
         {
-            rightArray[counter] = userLetter;
+            if(userLetter.Equals(space) && userLetter.Equals(partedWord[counter]))
+            {
+                rightArray[counter] = '_';
+            }
+            else
+            {
+                rightArray[counter] = userLetter;       
+            }
         }
         else
         {
-            incorrectArray[counter] = userLetter;
+            if(userLetter.Equals(space) && userLetter.Equals(partedWord[counter]))
+            {
+                incorrectArray[counter] = '_';
+            }
+            else
+            {
+                incorrectArray[counter] = userLetter;   
+            }
         }
         counter++;
     }
+    timer.Stop();
     Console.WriteLine("\n----------------------------------");
+    Console.WriteLine($"You finished in {timer.Elapsed.Seconds} seconds!");
     Console.Write("Do you want to try one more time? \n YES/NO --> ");
     string userAnswer = Console.ReadLine()!.ToLower();
-    if (userAnswer.Equals("yes"))
-    {
-        Console.Clear();
-        int startAgainTimer = 3;
-        Console.WriteLine($"New game starts in ");
-        while (startAgainTimer != 0)
-        {
-            Console.SetCursorPosition(19,0);
-            Console.Write(startAgainTimer);
-            Thread.Sleep(1000);
-            startAgainTimer--;
-        }
-        Console.Clear();
-    }
-    else if(userAnswer.Equals("no"))
+    if(userAnswer.Equals("no"))
     {
         Console.WriteLine("Press any key to exit");
         Console.ReadKey();
