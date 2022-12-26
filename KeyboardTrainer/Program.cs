@@ -6,59 +6,81 @@ string chosenWord = Words[rnd.Next(0,Words.Length)];
 char[] partedWord = chosenWord.ToCharArray();
 char[] rightArray = new char[partedWord.Length];
 char[] incorrectArray = new char[partedWord.Length];
-for (int i = 0; i < rightArray.Length;i++)
-{
-    rightArray[i] = ' ';
-}
 
-for (int i = 0; i < incorrectArray.Length;i++)
+while (true)
 {
-    incorrectArray[i] = ' ';
-}
-
-int counter = 0;
-while (counter != partedWord.Length)
-{
-    int rightCounter = 0;
-    int incorCounter = 0;
-    Console.CursorVisible = false;
-    Console.SetCursorPosition(0,0);
-    Console.WriteLine("Test Test");
-    Console.SetCursorPosition(0,1);
-    Console.WriteLine(partedWord);
-    foreach (var letter in rightArray)
+    for (int i = 0; i < rightArray.Length;i++)
     {
-        Console.SetCursorPosition(rightCounter, 2);
-        if (!letter.Equals(' '))
+        rightArray[i] = ' ';
+    }
+    for (int i = 0; i < incorrectArray.Length;i++)
+    {
+        incorrectArray[i] = ' ';
+    }
+    int counter = 0;
+    while (counter != partedWord.Length)
+    {
+        int rightCounter = 0;
+        int incorCounter = 0;
+        Console.CursorVisible = false;
+        Console.SetCursorPosition(0,0);
+        Console.WriteLine("Test Test");
+        Console.SetCursorPosition(0,1);
+        Console.WriteLine(partedWord);
+        foreach (var letter in rightArray)
         {
-            Console.Write($"{letter}".Pastel(ConsoleColor.Green));
+            Console.SetCursorPosition(rightCounter, 2);
+            if (!letter.Equals(' '))
+            {
+                Console.Write($"{letter}".Pastel(ConsoleColor.Green));
+            }
+    
+            rightCounter++;
         }
-
-        rightCounter++;
-    }
-
-    foreach (var letter in incorrectArray)
-    {
-        Console.SetCursorPosition(incorCounter, 2);
-        if (!letter.Equals(' '))
+    
+        foreach (var letter in incorrectArray)
         {
-            Console.Write($"{letter}".Pastel(ConsoleColor.Red));
+            Console.SetCursorPosition(incorCounter, 2);
+            if (!letter.Equals(' '))
+            {
+                Console.Write($"{letter}".Pastel(ConsoleColor.Red));
+            }
+    
+            incorCounter++;
         }
-
-        incorCounter++;
+    
+        char userLetter = Console.ReadKey().KeyChar;
+        if (userLetter.Equals(partedWord[counter]))
+        {
+            rightArray[counter] = userLetter;
+        }
+        else
+        {
+            incorrectArray[counter] = userLetter;
+        }
+        counter++;
     }
-
-    char userLetter = Console.ReadKey().KeyChar;
-    if (userLetter.Equals(partedWord[counter]))
+    Console.WriteLine("\n----------------------------------");
+    Console.Write("Do you want to try one more time? \n YES/NO --> ");
+    string userAnswer = Console.ReadLine()!.ToLower();
+    if (userAnswer.Equals("yes"))
     {
-        rightArray[counter] = userLetter;
+        Console.Clear();
+        int startAgainTimer = 3;
+        Console.WriteLine($"New game starts in ");
+        while (startAgainTimer != 0)
+        {
+            Console.SetCursorPosition(19,0);
+            Console.Write(startAgainTimer);
+            Thread.Sleep(1000);
+            startAgainTimer--;
+        }
+        Console.Clear();
     }
-    else
+    else if(userAnswer.Equals("no"))
     {
-        incorrectArray[counter] = userLetter;
+        Console.WriteLine("Press any key to exit");
+        Console.ReadKey();
+        break;
     }
-
-    counter++;
 }
-
-Console.ReadLine();
