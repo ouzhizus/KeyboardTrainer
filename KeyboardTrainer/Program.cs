@@ -74,25 +74,24 @@ while (true)
         Console.WriteLine("Test Test");
         Console.SetCursorPosition(0,1);
         Console.WriteLine(partedWord);
-        foreach (var letter in rightArray)
+        for (int i = 0; i < rightArray.Length; i++)
         {
-            Console.SetCursorPosition(rightCounter, 2);
-            if (!letter.Equals(' '))
+            Console.SetCursorPosition(i, 2);
+            if (rightArray[i] != ' ')
             {
-                Console.Write($"{letter}".Pastel(ConsoleColor.Green));
+                Console.Write($"{rightArray[i]}".Pastel(ConsoleColor.Green));
             }
-            rightCounter++;
         }
-    
-        foreach (var letter in incorrectArray)
+
+        for (int i = 0; i < incorrectArray.Length; i++)
         {
-            Console.SetCursorPosition(incorCounter, 2);
-            if (!letter.Equals(' '))
+            Console.SetCursorPosition(i, 2);
+            if (incorrectArray[i] != ' ')
             {
-                Console.Write($"{letter}".Pastel(ConsoleColor.Red));
+                Console.Write($"{incorrectArray[i]}".Pastel(ConsoleColor.Red));
             }
-            incorCounter++;
         }
+
     
         char userLetter = Console.ReadKey().KeyChar;
         if (userLetter.Equals(partedWord[counter]))
