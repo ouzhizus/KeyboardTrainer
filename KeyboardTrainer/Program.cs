@@ -1,4 +1,4 @@
-﻿using System.Xml;
+﻿using System.Diagnostics;
 using Pastel;
 
 Random rnd = new Random(); ;
@@ -33,7 +33,7 @@ string[] Words = {
     "You can lead a horse to water but you can't make him drink",
     "All work and no play robs one of some fun in life"
 };
-
+Stopwatch timer = new Stopwatch();
 char space = (char)32;
 while (true)
 {
@@ -56,6 +56,7 @@ while (true)
         startAgainTime--;
     }
     Console.Clear();
+    timer.Start();
     for (int i = 0; i < rightArray.Length;i++)
     {
         rightArray[i] = ' ';
@@ -67,8 +68,6 @@ while (true)
     int counter = 0;
     while (counter != partedWord.Length)
     {
-        int rightCounter = 0;
-        int incorCounter = 0;
         Console.CursorVisible = false;
         Console.SetCursorPosition(0,0);
         Console.WriteLine("Test Test");
@@ -118,7 +117,9 @@ while (true)
         }
         counter++;
     }
+    timer.Stop();
     Console.WriteLine("\n----------------------------------");
+    Console.WriteLine($"You finished in {timer.Elapsed.Seconds} seconds!");
     Console.Write("Do you want to try one more time? \n YES/NO --> ");
     string userAnswer = Console.ReadLine()!.ToLower();
     if(userAnswer.Equals("no"))
