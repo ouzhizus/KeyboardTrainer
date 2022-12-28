@@ -35,6 +35,8 @@ string[] Words = {
 };
 Stopwatch timer = new Stopwatch();
 char space = (char)32;
+char enter = (char)13;
+char backspace = (char)8;
 while (true)
 {
     Console.CursorVisible = false;
@@ -51,7 +53,7 @@ while (true)
     Console.WriteLine($"Game starts in ");
     while (startAgainTime != 0)
     {
-        Console.SetCursorPosition(19,0);
+        Console.SetCursorPosition(15,0);
         Console.Write(startAgainTime);
         Thread.Sleep(1000);
         startAgainTime--;
@@ -71,12 +73,10 @@ while (true)
     {
         Console.CursorVisible = false;
         Console.SetCursorPosition(0,0);
-        Console.WriteLine("Typing training:");
-        Console.SetCursorPosition(0,1);
         Console.WriteLine(partedWord);
         for (int i = 0; i < rightArray.Length; i++)
         {
-            Console.SetCursorPosition(i, 2);
+            Console.SetCursorPosition(i, 1);
             if (rightArray[i] != ' ')
             {
                 Console.Write($"{rightArray[i]}".Pastel(ConsoleColor.Green));
@@ -85,7 +85,7 @@ while (true)
 
         for (int i = 0; i < incorrectArray.Length; i++)
         {
-            Console.SetCursorPosition(i, 2);
+            Console.SetCursorPosition(i, 1);
             if (incorrectArray[i] != ' ')
             {
                 Console.Write($"{incorrectArray[i]}".Pastel(ConsoleColor.Red));
@@ -115,6 +115,10 @@ while (true)
             {
                 incorrectArray[counter] = '_';
             }
+            else if (userLetter.Equals(enter) || userLetter.Equals(backspace))
+            {
+                incorrectArray[counter] = '_';
+            }
             else
             {
                 incorrectArray[counter] = userLetter;   
@@ -129,7 +133,7 @@ while (true)
     string userAnswer = Console.ReadLine()!.ToLower();
     if(userAnswer.Equals("no"))
     {
-        Console.WriteLine("Press any key to exit");
+        Console.WriteLine("Press any key to exit".Pastel(ConsoleColor.Red));
         Console.ReadKey();
         break;
     }
