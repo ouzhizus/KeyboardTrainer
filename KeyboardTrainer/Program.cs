@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using Pastel;
 
+Console.CursorVisible = false;
 Random rnd = new Random(); ;
 string[] Words = {
     "Please take your dog, Cali, out for a walk – he really needs some exercise!",
@@ -39,22 +40,23 @@ char enter = (char)13;
 char backspace = (char)8;
 while (true)
 {
-    Console.CursorVisible = false;
     string chosenWord = Words[rnd.Next(0,Words.Length)];
     char[] partedWord = chosenWord.ToCharArray();
     char[] rightArray = new char[partedWord.Length];
     char[] incorrectArray = new char[partedWord.Length];
-
+    int correctLetters = 0;
+    int allLetter = chosenWord.Length;
+    
     Console.Clear();
-    Console.WriteLine("Press any key to start ");
+    Console.WriteLine(" Press any key to start ");
     Console.ReadKey();
     Console.Clear();
     int startAgainTime = 3;
-    Console.WriteLine($"Game starts in ");
+    Console.WriteLine($" Game starts in ");
     while (startAgainTime != 0)
     {
-        Console.SetCursorPosition(15,0);
-        Console.Write(startAgainTime);
+        Console.SetCursorPosition(16,0);
+        Console.Write($"{startAgainTime}".Pastel(ConsoleColor.Red));
         Thread.Sleep(1000);
         startAgainTime--;
     }
@@ -72,11 +74,11 @@ while (true)
     while (counter != partedWord.Length)
     {
         Console.CursorVisible = false;
-        Console.SetCursorPosition(0,0);
+        Console.SetCursorPosition(1,0);
         Console.WriteLine(partedWord);
         for (int i = 0; i < rightArray.Length; i++)
         {
-            Console.SetCursorPosition(i, 1);
+            Console.SetCursorPosition(i+1, 1);
             if (rightArray[i] != ' ')
             {
                 Console.Write($"{rightArray[i]}".Pastel(ConsoleColor.Green));
@@ -85,7 +87,7 @@ while (true)
 
         for (int i = 0; i < incorrectArray.Length; i++)
         {
-            Console.SetCursorPosition(i, 1);
+            Console.SetCursorPosition(i+1, 1);
             if (incorrectArray[i] != ' ')
             {
                 Console.Write($"{incorrectArray[i]}".Pastel(ConsoleColor.Red));
@@ -99,10 +101,12 @@ while (true)
             if(userLetter.Equals(space) && userLetter.Equals(partedWord[counter]))
             {
                 rightArray[counter] = '_';
+                correctLetters++;
             }
             else
             {
-                rightArray[counter] = userLetter;       
+                rightArray[counter] = userLetter;
+                correctLetters++;
             }
         }
         else if (userLetter.Equals(space) && !userLetter.Equals(partedWord[counter]))
@@ -128,12 +132,17 @@ while (true)
     }
     timer.Stop();
     Console.WriteLine("\n----------------------------------");
-    Console.WriteLine($"You finished in {timer.Elapsed.Seconds} seconds!");
-    Console.Write("Do you want to try one more time? \n YES/NO --> ");
+    Console.WriteLine($" You finished in {timer.Elapsed.Seconds} seconds!");
+    double percentRight = (double)correctLetters / allLetter * 100;
+    percentRight = Math.Round(percentRight);
+    Console.WriteLine($" {allLetter} | {correctLetters}");
+    Console.Write(" Correct symbols: ");
+    Console.Write($" {percentRight}%\n".Pastel(ConsoleColor.Green));
+    Console.Write(" Do you want to try one more time? \n YES/NO --> ");
     string userAnswer = Console.ReadLine()!.ToLower();
     if(userAnswer.Equals("no"))
     {
-        Console.WriteLine("Press any key to exit".Pastel(ConsoleColor.Red));
+        Console.WriteLine(" Press any key to exit".Pastel(ConsoleColor.Red));
         Console.ReadKey();
         break;
     }
